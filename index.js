@@ -22,10 +22,10 @@ function error (err) {
   return callback => callback(err)
 }
 
-function iff (predicate, ifTrue, ifFalse = noop) {
-  return (...args) => {
-    if (predicate(...args)) return ifTrue(...args)
-    else return ifFalse(...args)
+function iff (predicate, ifTrue, ifFalse = of) {
+  return (value) => {
+    if (predicate(value)) return ifTrue(value)
+    else return ifFalse(value)
   }
 }
 
@@ -59,8 +59,8 @@ function parallel (continuables) {
   }
 }
 
-function of (...values) {
-  return callback => callback(null, ...values)
+function of (value) {
+  return callback => callback(null, value)
 }
 
 function series (continuables) {
@@ -91,21 +91,15 @@ function sync (fn) {
 }
 
 function tap (fn) {
-  return (...values) => {
-    fn(...values)
-    return of(...values)
+  return (value) => {
+    fn(value)
+    return of(value)
   }
 }
 
 // inspired by https://github.com/Raynos/continuable/blob/master/to.js
 function to (asyncFn) {
   return function (...args) {
-    const callback = args[args.length - 1]
-
-    if (typeof callback === 'function') {
-      return asyncFn.apply(this, args)
-    }
-
     return function continuable (callback) {
       return asyncFn(...args, callback)
     }
@@ -115,9 +109,8 @@ function to (asyncFn) {
 function waterfall (steps) {
   return topCallback => {
     const callbackers = steps.map((step, index) => {
-      return (...args) => {
-        const callback = args.pop()
-        const continuable = index === 0 ? step : step(...args)
+      return (value, callback) => {
+        const continuable = index === 0 ? step : step(value)
         continuable(callback)
       }
     })
