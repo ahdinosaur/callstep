@@ -349,6 +349,11 @@ const readConfig = step.waterfall([
 ])
 ```
 
+## thanks
+
+- [`Raynos/continuable`](https://github.com/Raynos/continuable)
+- [`dominictarr/cont`](https://github.com/dominictarr/cont)
+
 ## license
 
 The Apache License
