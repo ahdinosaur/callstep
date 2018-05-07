@@ -1,6 +1,6 @@
 # callstep 🚶
 
-async control flow library using continuables
+Promise-like async control flow library using plain functions
 
 ```shell
 npm install --save callstep
