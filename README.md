@@ -83,7 +83,8 @@ a callstep is a function that receives an input value and returns a continuable 
 
 ```js
 function callstep (input) {
-  function continuable (callback) {
+  return function continuable (callback) {
+    // do something, then call...
     callback(err, output)
   }
 }
@@ -96,7 +97,7 @@ const readConfig = readFile('./config.json')
 
 function readFile (path) {
   return function continuable (callback) {
-    fs.readFile('./config.json', callback)
+    fs.readFile(path, callback)
   }
 }
 ```
