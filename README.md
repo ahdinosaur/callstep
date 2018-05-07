@@ -6,7 +6,30 @@ Promise-like async control flow library using plain functions
 npm install --save callstep
 ```
 
-## background
+## table of contents
+
+- [concepts](#concepts)
+  - [Callback](#callback)
+  - [Continuable](#continuable)
+  - [Callstep](#callstep)
+- [api](#api)
+  - [of](#stepofvalue--continuable)
+  - [from](#steperrorerr--continuable)
+  - [to](#steptoasyncfn--values--continuable)
+  - [noop](#stepnoop--continuable)
+  - [sync](#stepsyncsyncfn--continuable)
+  - [series](#stepseriescontinuables--continuable)
+  - [parallel](#stepparallelcontinuables--continuable)
+  - [waterfall](#stepwaterfallcontinuable-callsteps--continuable)
+  - [iff](#stepiffpredicate-iftrue-iffalse--callstep)
+  - [map](#stepmapsource-lambda--continuable)
+  - [mapAsync](#stepmapasyncsource-callstep--continuable)
+  - [swallowError](#stepswallowerrorcontinuable--continuable)
+  - [tap](#steptapfn--callstep)
+- [thanks](#thanks)
+- [license](#license)
+
+## concepts
 
 ### `Callback`
 
