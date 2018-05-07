@@ -109,11 +109,19 @@ function to (asyncFn) {
 function waterfall (steps) {
   return topCallback => {
     const callbackers = steps.map((step, index) => {
-      return (value, callback) => {
-        const continuable = index === 0 ? step : step(value)
-        continuable(callback)
-      }
+      return index === 0
+        ? ensureValue(step)
+        : (value, callback) => ensureValue(step(value))(callback)
     })
     runWaterfall(callbackers, topCallback)
+  }
+
+  // ensure value argument is passed to callback
+  function ensureValue (continuable) {
+    return function callbacker (callback) {
+      continuable((err, value) => {
+        callback(err, value)
+      })
+    }
   }
 }
